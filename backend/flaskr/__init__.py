@@ -149,7 +149,7 @@ def create_app(test_config=None):
   the form will clear and the question will appear at the end of the last page
   of the questions list in the "List" tab.  
   '''
-  @app.route('/questions', methods = ['POST'])
+  @app.route('/questions/add', methods = ['POST'])
   def submit_question():
     data = request.get_json()
     new_question = data.get('question', None)
@@ -187,15 +187,21 @@ def create_app(test_config=None):
   only question that include that string within their question. 
   Try using the word "title" to start. 
   '''
-  '''@app.route('/questions', methods = '[POST]')
+  @app.route('/questions', methods = ['POST'])
   def search_questions():
+    data = request.get_json()
+    search_term = data.get('searchTerm', None)
+    search = '%{0}%'.format(search_term)
 
-    questions = Question.query.all()
+    questions = Question.query.filter(Question.question.ilike(search)).all()
+    #questions = Question.query.filter(Question.question.ilike('%box%')).all()
+    formatted_questions = paginate_questions(request, questions)
+    print(questions)
     return jsonify({
-      'questions': questions,
+      'questions': formatted_questions,
       'total_questions': len(questions),
-      'current_category': None
-    })'''
+      'current_category': 1
+    })
 
   '''
   @TODO: 
@@ -205,6 +211,24 @@ def create_app(test_config=None):
   categories in the left column will cause only questions of that 
   category to be shown. 
   '''
+  @app.route('/categories/<int:category_id>/questions')
+  def get_questions_by_category(category_id):
+    questions = Question.query.filter(Question.category == category_id).all()
+    current_questions = paginate_questions(request, questions)
+
+    if current_questions is None:
+      abort(404)
+
+    try:   
+      return jsonify({
+        'questions': current_questions,
+        'total_questions': len(questions),
+        'current_category': category_id
+      })
+    except:
+      abort(422)
+
+           
 
 
   '''
@@ -218,6 +242,42 @@ def create_app(test_config=None):
   one question at a time is displayed, the user is allowed to answer
   and shown whether they were correct or not. 
   '''
+  @app.route('/quizzes', methods = ['POST'])
+  def play_quiz():
+    data = request.get_json()
+    category = data.get('quiz_category', None)
+    category_id = category['id']
+    previous_questions = data.get('previous_questions', None)    
+    questions = Question.query.filter(Question.category == category_id).all()
+    #formatted_questions = paginate_questions(request, questions)
+    print('previous questions: ' + str(previous_questions))
+    print(category['id'])
+    new_questions = []
+    print('first new questions: ' + str(new_questions))
+    for question in questions:
+      if question.id in previous_questions:        
+        print('the question is in previous_questions')
+      else:
+        new_questions.append(question)
+
+    print("new questions: " + str(new_questions))
+
+
+    question = random.choice(new_questions)   
+    formatted_question = question.format() 
+    previous_questions.append(formatted_question)
+    print(question)
+    print(formatted_question)
+    
+    try:
+      return jsonify({
+        #'previous_questions': previous_questions,
+        #'quiz_category': category_id,
+        'question': formatted_question
+      })
+      
+    except:
+      abort(404)
 
   '''
   @TODO: 
