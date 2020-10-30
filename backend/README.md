@@ -91,13 +91,12 @@ GET '/categories'
 ## Endpoints
 #### GET '/categories'
 - General
-Returns a list of available categories and the number of availalbe categories.
-Results are formatted as shown in the result below.
+- Returns a list of available categories and the number of availalbe categories.
+- Results are formatted as shown in the example below.
 
 - Sample: `curl http://127.0.0.1:5000/categories`
 
-`example section...`
-- Result:
+- Example:
 ```
 {
   "categories": {
@@ -113,8 +112,6 @@ Results are formatted as shown in the result below.
 }
 ```
 
-```hello
-```
 
 
 @TODO: 
