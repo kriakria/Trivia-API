@@ -89,16 +89,32 @@ GET '/categories'
 
 ```
 ## Endpoints
-GET '/categories'
+#### GET '/categories'
 - General
-* General:
 Returns a list of available categories and the number of availalbe categories.
-Results are formatted
+Results are formatted as shown in the result below.
 
-  *Sample:
-curl...
+- Sample: `curl http://127.0.0.1:5000/categories`
 
 `example section...`
+- Result:
+```
+{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "success": true,
+  "total_categories": 6
+}
+```
+
+```hello
+```
 
 
 @TODO: 
