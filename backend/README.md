@@ -90,8 +90,8 @@ GET '/categories'
 ```
 ## Endpoints
 GET '/categories'
-
-  *General:
+- General
+* General:
 Returns a list of available categories and the number of availalbe categories.
 Results are formatted
 
