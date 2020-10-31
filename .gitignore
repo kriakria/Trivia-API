@@ -1,0 +1,6 @@
+.env
+.vscode
+/frontend/node_modules
+
+# virtual environment
+TRIVIA

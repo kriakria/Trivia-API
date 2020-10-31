@@ -460,15 +460,17 @@ GET '/categories'
   - Returns a random question from a pool of questions in the selected category that have not been returned before.
   - Returns the question and a success value.
 
-- Sample: `curl -X POST "http://127.0.0.1:5000/quizzes" -d "{\"quiz_category\":{\"type\": \"History\", \"id\": 12},\"previous_questions\":\"[\"14\"]\"}" -H "Content-Type: application/json"`
+- Sample: `curl -X POST "http://127.0.0.1:5000/quizzes" -d "{\"quiz_category\":{\"type\": \"History\", \"id\": \"4\"},\"previous_questions\":[2]}" -H "Content-Type: application/json"`
 
 ```{
-  "question": 
-     {'id': 12, 
-     'question': 'Who invented Peanut Butter?', 
-     'answer': 'George Washington Carver', 
-     'category': 4, 
-     'difficulty': 2
+  "question": {
+    "answer": "Muhammad Ali",
+    "category": 4,
+    "difficulty": 1,
+    "id": 9,
+    "question": "What boxer's original name is Cassius Clay?"
+  },
+  "success": true
 }
 ```
 
