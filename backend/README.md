@@ -88,15 +88,20 @@ GET '/categories'
 '6' : "Sports"}
 
 ```
+# API Reference
+
+## Getting started
+- Base URL: This app can at present only be run locally and is not hosted as a base URL. The backend app is hosted at the default, `http://127.0.0.1:5000/`, which is set as a proxy in the frontend configuration.
+- Authentication: This version of the application does not require authentication or API keys.
+
 ## Endpoints
 #### GET '/categories'
 - General
-  - Returns a list of available categories and the number of availalbe categories.
+  - Returns a list of available categories, success value and the number of availalbe categories.
   - Results are formatted as shown in the example below.
 
 - Sample: `curl http://127.0.0.1:5000/categories`
 
-- Example:
 ```
 {
   "categories": {
@@ -111,273 +116,382 @@ GET '/categories'
   "total_categories": 6
 }
 ```
+#### GET '/questions'
+- General
+  - Returns a list of questions, success value, total number of questions, current category and list of all categories.
+  - Results of the questions are paginated in groups of 10. Include a request argument to choose page number, starting with 1.   
+
+- Sample: `curl http://127.0.0.1:5000/questions`
+
+```{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "current_category": null,
+  "questions": [
+    {
+      "answer": "Maya Angelou",
+      "category": 4,
+      "difficulty": 2,
+      "id": 5,
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },
+    {
+      "answer": "Muhammad Ali",
+      "category": 4,
+      "difficulty": 1,
+      "id": 9,
+      "question": "What boxer's original name is Cassius Clay?"
+    },
+    {
+      "answer": "Apollo 13",
+      "category": 5,
+      "difficulty": 4,
+      "id": 2,
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    },
+    {
+      "answer": "Tom Cruise",
+      "category": 5,
+      "difficulty": 4,
+      "id": 4,
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    },
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    },
+    {
+      "answer": "Brazil",
+      "category": 6,
+      "difficulty": 3,
+      "id": 10,
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    },
+    {
+      "answer": "Uruguay",
+      "category": 6,
+      "difficulty": 4,
+      "id": 11,
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    },
+    {
+      "answer": "George Washington Carver",
+      "category": 4,
+      "difficulty": 2,
+      "id": 12,
+      "question": "Who invented Peanut Butter?"
+    },
+    {
+      "answer": "Lake Victoria",
+      "category": 3,
+      "difficulty": 2,
+      "id": 13,
+      "question": "What is the largest lake in Africa?"
+    },
+    {
+      "answer": "The Palace of Versailles",
+      "category": 3,
+      "difficulty": 3,
+      "id": 14,
+      "question": "In which royal palace would you find the Hall of Mirrors?"
+    }
+  ],
+  "success": true,
+  "total_questions": 24
+}
+```
+#### DELETE '/questions/{question_id}'
+- General
+  - Deletes a specific question
+  - Returns the question that was deleted, success value, the list of questions on the first page and the total number of questions.
+
+- Sample: `curl -X DELETE http://127.0.0.1:5000/questions/37`
+
+```{
+  "deleted": {
+    "answer": "Paris",
+    "category": 1,
+    "difficulty": 1,
+    "id": 37,
+    "question": "What is the capital of France?"
+  },
+  "questions": [
+    {
+      "answer": "Maya Angelou",
+      "category": 4,
+      "difficulty": 2,
+      "id": 5,
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },
+    {
+      "answer": "Muhammad Ali",
+      "category": 4,
+      "difficulty": 1,
+      "id": 9,
+      "question": "What boxer's original name is Cassius Clay?"
+    },
+    {
+      "answer": "Apollo 13",
+      "category": 5,
+      "difficulty": 4,
+      "id": 2,
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    },
+    {
+      "answer": "Tom Cruise",
+      "category": 5,
+      "difficulty": 4,
+      "id": 4,
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    },
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    },
+    {
+      "answer": "Brazil",
+      "category": 6,
+      "difficulty": 3,
+      "id": 10,
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    },
+    {
+      "answer": "Uruguay",
+      "category": 6,
+      "difficulty": 4,
+      "id": 11,
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    },
+    {
+      "answer": "George Washington Carver",
+      "category": 4,
+      "difficulty": 2,
+      "id": 12,
+      "question": "Who invented Peanut Butter?"
+    },
+    {
+      "answer": "Lake Victoria",
+      "category": 3,
+      "difficulty": 2,
+      "id": 13,
+      "question": "What is the largest lake in Africa?"
+    },
+    {
+      "answer": "The Palace of Versailles",
+      "category": 3,
+      "difficulty": 3,
+      "id": 14,
+      "question": "In which royal palace would you find the Hall of Mirrors?"
+    }
+  ],
+  "success": true,
+  "total_questions": 24
+}
+```
+
+#### POST '/questions/add'
+- General
+  - Adds a question to the database that includes an answer, category and diffuculty score.
+  - Returns the question, answer, difficulty, category, success value, the questions on the current page and the total number of questions.
+
+- Sample: `curl -X POST "http://127.0.0.1:5000/questions/add" -d "{\"question\":\"What is the capital of Germany?\", \"answer\": \"Berlin\", \"difficulty\": 1, \"category\": 3}" -H "Content-Type: application/json"`
+
+```{      
+  "answer": "Berlin",
+  "category": 3,
+  "difficulty": 1,
+  "question": "What is the capital of Germany?",
+  "questions": [
+    {
+      "answer": "Maya Angelou",
+      "category": 4,
+      "difficulty": 2,
+      "id": 5,
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },
+    {
+      "answer": "Muhammad Ali",
+      "category": 4,
+      "difficulty": 1,
+      "id": 9,
+      "question": "What boxer's original name is Cassius Clay?"
+    },
+    {
+      "answer": "Apollo 13",
+      "category": 5,
+      "difficulty": 4,
+      "id": 2,
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    },
+    {
+      "answer": "Tom Cruise",
+      "category": 5,
+      "difficulty": 4,
+      "id": 4,
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    },
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    },
+    {
+      "answer": "Brazil",
+      "category": 6,
+      "difficulty": 3,
+      "id": 10,
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    },
+    {
+      "answer": "Uruguay",
+      "category": 6,
+      "difficulty": 4,
+      "id": 11,
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    },
+    {
+      "answer": "George Washington Carver",
+      "category": 4,
+      "difficulty": 2,
+      "id": 12,
+      "question": "Who invented Peanut Butter?"
+    },
+    {
+      "answer": "Lake Victoria",
+      "category": 3,
+      "difficulty": 2,
+      "id": 13,
+      "question": "What is the largest lake in Africa?"
+    },
+    {
+      "answer": "The Palace of Versailles",
+      "category": 3,
+      "difficulty": 3,
+      "id": 14,
+      "question": "In which royal palace would you find the Hall of Mirrors?"
+    }
+  ],
+  "success": true,
+  "total_questions": 26
+}
+```
+#### POST '/questions'
+- General
+  - Returns questions that include the search term that the users submitted.
+  - Returns the questions (paginated in sets of 10), the total number of questions, a success value, and the currect category, which is set to 0.
+
+- Sample: `curl -X POST "http://127.0.0.1:5000/questions" -d "{\"searchTerm\":\"France\"}" -H "Content-Type: application/json"`
+
+```{      
+  "current_category": 0,
+  "questions": [
+    {
+      "answer": "Europe",
+      "category": 3,
+      "difficulty": 1,
+      "id": 35,
+      "question": "In which continent is France?"
+    }
+  ],
+  "success": true,
+  "total_questions": 1
+}
+```
+#### GET '/categories/{category_id}/questions'
+- General
+  - Returns all questions that are in the selected category.
+  - Returns the questions (including answers, difficulty, category and id, paginated in sets of 10), the total number of questions, a success value, and the currect category.
+
+- Sample: `curl -X GET "http://127.0.0.1:5000/categories/1/questions"`
+
+```{
+  "current_category": 1,
+  "questions": [
+    {
+      "answer": "The Liver",
+      "category": 1,
+      "difficulty": 4,
+      "id": 20,
+      "question": "What is the heaviest organ in the human body?"
+    },
+    {
+      "answer": "Alexander Fleming",
+      "category": 1,
+      "difficulty": 3,
+      "id": 21,
+      "question": "Who discovered penicillin?"
+    },
+    {
+      "answer": "Blood",
+      "category": 1,
+      "difficulty": 4,
+      "id": 22,
+      "question": "Hematology is a branch of medicine involving the study of what?"
+    },
+    {
+      "answer": "fine",
+      "category": 1,
+      "difficulty": 1,
+      "id": 27,
+      "question": "how are you?"
+    }
+  ],
+  "success": true,
+  "total_questions": 4
+}
+```
+
+#### POST '/quizzes'
+- General
+  - Returns a random question from a pool of questions in the selected category that have not been returned before.
+  - Returns the question and a success value.
+
+- Sample: `curl -X POST "http://127.0.0.1:5000/quizzes" -d "{\"quiz_category\":{\"type\": \"History\", \"id\": 12},\"previous_questions\":\"[\"14\"]\"}" -H "Content-Type: application/json"`
+
+```{
+  "question": 
+     {'id': 12, 
+     'question': 'Who invented Peanut Butter?', 
+     'answer': 'George Washington Carver', 
+     'category': 4, 
+     'difficulty': 2
+}
+```
 
 
+## Error handling
 
-@TODO: 
-  Create an endpoint to handle GET requests 
-  for all available categories.
-  '''
-  @app.route('/categories', methods = ['GET'])
-  def list_categories(): 
+Errors are returned as JSON objects in the following format:
 
-    return jsonify({
-      'success': True,
-      'categories': format_categories(),
-      'total_categories': len(get_categories())
-    })
-    
-  '''
-  @TODO: 
-  Create an endpoint to handle GET requests for questions, 
-  including pagination (every 10 questions). 
-  This endpoint should return a list of questions, 
-  number of total questions, current category, categories. 
-
-  TEST: At this point, when you start the application
-  you should see questions and categories generated,
-  ten questions per page and pagination at the bottom of the screen for three pages.
-  Clicking on the page numbers should update the questions. 
-  '''
-
-  @app.route('/questions', methods = ['GET'])
-  def list_questions():
-    questions = get_questions()   
-    current_questions = paginate_questions(request, questions)
-
-    if current_questions == []:
-      abort(404)
-
-    return jsonify({
-      'success': True,      
-      'questions': paginate_questions(request, questions),
-      'total_questions': len(questions),
-      'current_category': None,
-      'categories': format_categories()      
-    })
-
-  '''
-  @TODO: 
-  Create an endpoint to DELETE question using a question ID. 
-
-  TEST: When you click the trash icon next to a question, the question will be removed.
-  This removal will persist in the database and when you refresh the page. 
-  '''
-
-  @app.route('/questions/<int:question_id>', methods = ['DELETE'])
-  def delete_question(question_id):
-    try:
-      question = Question.query.filter(Question.id == question_id).one_or_none()
-
-      if question is None:
-        abort(404)
-        
-      else:
-        question.delete()
-        questions = get_questions()
-        current_questions = paginate_questions(request, questions)
-
-        return jsonify({
-          'success': True,
-          'deleted': question.format(),
-          'questions': current_questions,
-          'total_questions': len(questions)
-        })
-    except:
-      abort(422) # not able to process the request
-
-  
-  '''
-  @TODO: 
-  Create an endpoint to POST a new question, 
-  which will require the question and answer text, 
-  category, and difficulty score.
-
-  TEST: When you submit a question on the "Add" tab, 
-  the form will clear and the question will appear at the end of the last page
-  of the questions list in the "List" tab.  
-  '''
-  @app.route('/questions/add', methods = ['POST'])
-  def submit_question():
-    data = request.get_json()
-    new_question = data.get('question', None)
-    new_answer = data.get('answer', None)
-    new_difficulty = data.get('difficulty', None)
-    new_category = data.get('category', None)
-
-    try:
-      question = Question(question=new_question, answer=new_answer, difficulty=new_difficulty, category=new_category)
-      question.insert()
-      questions = Question.query.all()
-      current_questions = paginate_questions(request, questions)
-
-      return jsonify({
-        'deleted': question.id,
-        'question': new_question,
-        'answer': new_answer,
-        'difficulty': new_difficulty,
-        'category': new_category,
-        'success': True,
-        'questions': current_questions,
-        'total_questions': len(Question.query.all())
-      })
-    except:
-      abort(422) # not able to process the request
-
-
-  '''
-  @TODO: 
-  Create a POST endpoint to get questions based on a search term. 
-  It should return any questions for whom the search term 
-  is a substring of the question. 
-
-  TEST: Search by any phrase. The questions list will update to include 
-  only question that include that string within their question. 
-  Try using the word "title" to start. 
-  '''
-  @app.route('/questions', methods = ['POST'])
-  def search_questions():
-    data = request.get_json()
-    search_term = data.get('searchTerm', None)
-    search = '%{0}%'.format(search_term)
-
-    questions = Question.query.filter(Question.question.ilike(search)).all()
-    formatted_questions = paginate_questions(request, questions)
-    print(questions)
-    return jsonify({
-      'questions': formatted_questions,
-      'total_questions': len(questions),
-      'current_category': 1
-    })
-
-  '''
-  @TODO: 
-  Create a GET endpoint to get questions based on category. 
-
-  TEST: In the "List" tab / main screen, clicking on one of the 
-  categories in the left column will cause only questions of that 
-  category to be shown. 
-  '''
-  @app.route('/categories/<int:category_id>/questions')
-  def get_questions_by_category(category_id):
-    questions = Question.query.filter(Question.category == category_id).all()
-    current_questions = paginate_questions(request, questions)
-
-    if current_questions is None:
-      abort(404)
-
-    try:   
-      return jsonify({
-        'questions': current_questions,
-        'total_questions': len(questions),
-        'current_category': category_id
-      })
-    except:
-      abort(422)
-
-           
-
-
-  '''
-  @TODO: 
-  Create a POST endpoint to get questions to play the quiz. 
-  This endpoint should take category and previous question parameters 
-  and return a random questions within the given category, 
-  if provided, and that is not one of the previous questions. 
-
-  TEST: In the "Play" tab, after a user selects "All" or a category,
-  one question at a time is displayed, the user is allowed to answer
-  and shown whether they were correct or not. 
-  '''
-  @app.route('/quizzes', methods = ['POST'])
-  def play_quiz():
-    data = request.get_json()
-    category = data.get('quiz_category', None)
-    category_id = category['id']
-    previous_questions = data.get('previous_questions', None)  
-
-    if category_id == 0:
-      questions = get_questions()    
-    
-    else:    
-      category_id = category['id']
-      questions = Question.query.filter(Question.category == category_id).all()
-    
-    new_questions = []
-    
-    for question in questions:
-      if question.id not in previous_questions:        
-        new_questions.append(question)
-      
-    if new_questions == []:
-      formatted_question = 0
-    
-    else:
-      question = random.choice(new_questions)   
-      formatted_question = question.format() 
-      previous_questions.append(formatted_question)
-
-      print(formatted_question)
-    
-    try:
-      return jsonify({
-        'question': formatted_question        
-      })
-    
-    except:
-      abort(404)
-
-  '''
-  @TODO: 
-  Create error handlers for all expected errors 
-  including 404 and 422. 
-  '''
-
-  @app.errorhandler(400)
-  def not_found(error):
-    
-    return jsonify({
-      'success': False,
+```{
+  'success': False,
       'error': 400,
       'message': 'Bad request'
-    }), 400
-  
-  @app.errorhandler(404)
-  def not_found(error):
-    
-    return jsonify({
-      'success': False,
-      'error': 404,
-      'message': 'Not found'
-    }), 404
+}
+```
 
-  @app.errorhandler(405)
-  def not_found(error):
-    
-    return jsonify({
-      'success': False,
-      'error': 405,
-      'message': 'Method not allowed'
-    }), 405
+The API will return xx error types when requests fail:
 
-  @app.errorhandler(422)
-  def unprocessable(error):
+- 400: Bad request
+- 404: Not found
+- 405: Method not allowed
+- 422: Unprocessable
+- 500: Internal server error
 
-    return jsonify({
-      'success': False,
-      'error': 422,
-      'message': 'Unprocessable'
-    }), 422
-
-
-  @app.errorhandler(500)
-  def unprocessable(error):
-
-    return jsonify({
-      'success': False,
-      'error': 500,
-      'message': 'Internal server error'
-    }), 500
 
 ## Testing
 To run the tests, run
