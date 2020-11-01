@@ -30,16 +30,15 @@ def create_app(test_config=None):
     # CORS Headers
     @app.after_request
     def after_request(response):
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization, true')
-        response.headers.add('Access-Control-Allow-Headers', 'GET, PATCH, POST, DELETE, OPTIONS')
+        response.headers.add('Access-Control-Allow-Headers',
+                             'Content-Type, Authorization, true')
+        response.headers.add('Access-Control-Allow-Headers',
+                             'GET, PATCH, POST, DELETE, OPTIONS')
 
         return response
 
     def get_questions():
         questions = Question.query.all()
-
-        # user = os.dotenv('DB_USER')
-        # print(user)
 
         if len(questions) == 0:
             abort(404)
@@ -65,10 +64,15 @@ def create_app(test_config=None):
     @app.route('/categories', methods=['GET'])
     def list_categories():
 
+        categories = get_categories()
+
+        if len(categories) == 0:
+            abort(404)
+
         return jsonify({
             'success': True,
             'categories': format_categories(),
-            'total_categories': len(get_categories())
+            'total_categories': len(categories)
         })
 
     @app.route('/questions', methods=['GET'])
@@ -76,7 +80,7 @@ def create_app(test_config=None):
         questions = get_questions()
         current_questions = paginate_questions(request, questions)
 
-        if current_questions == []:
+        if len(current_questions) == 0:
             abort(404)
 
         return jsonify({
@@ -90,7 +94,8 @@ def create_app(test_config=None):
     @app.route('/questions/<int:question_id>', methods=['DELETE'])
     def delete_question(question_id):
         try:
-            question = Question.query.filter(Question.id == question_id).one_or_none()
+            question = Question.query.filter(
+                Question.id == question_id).one_or_none()
 
             if question is None:
                 abort(404)
@@ -106,7 +111,7 @@ def create_app(test_config=None):
                     'questions': current_questions,
                     'total_questions': len(questions)
                 })
-        except:
+        except BaseException:
             abort(422)  # not able to process the request
 
     @app.route('/questions/add', methods=['POST'])
@@ -118,7 +123,11 @@ def create_app(test_config=None):
         new_category = data.get('category', None)
 
         try:
-            question = Question(question=new_question, answer=new_answer, difficulty=new_difficulty, category=new_category)
+            question = Question(
+                question=new_question,
+                answer=new_answer,
+                difficulty=new_difficulty,
+                category=new_category)
             question.insert()
             questions = Question.query.all()
             current_questions = paginate_questions(request, questions)
@@ -132,7 +141,7 @@ def create_app(test_config=None):
                 'questions': current_questions,
                 'total_questions': len(Question.query.all())
             })
-        except:
+        except BaseException:
             abort(422)  # not able to process the request
 
     @app.route('/questions', methods=['POST'])
@@ -141,7 +150,8 @@ def create_app(test_config=None):
         search_term = data.get('searchTerm', None)
         search = '%{0}%'.format(search_term)
 
-        questions = Question.query.filter(Question.question.ilike(search)).all()
+        questions = Question.query.filter(
+            Question.question.ilike(search)).all()
         formatted_questions = paginate_questions(request, questions)
         print(questions)
         return jsonify({
@@ -153,10 +163,11 @@ def create_app(test_config=None):
 
     @app.route('/categories/<int:category_id>/questions')
     def get_questions_by_category(category_id):
-        questions = Question.query.filter(Question.category == category_id).all()
+        questions = Question.query.filter(
+            Question.category == category_id).all()
         current_questions = paginate_questions(request, questions)
 
-        if current_questions is None:
+        if current_questions == []:
             abort(404)
 
         try:
@@ -166,7 +177,7 @@ def create_app(test_config=None):
                 'current_category': category_id,
                 'success': True
             })
-        except:
+        except BaseException:
             abort(422)
 
     @app.route('/quizzes', methods=['POST'])
@@ -182,7 +193,8 @@ def create_app(test_config=None):
 
         else:
             category_id = category['id']
-            questions = Question.query.filter(Question.category == category_id).all()
+            questions = Question.query.filter(
+                Question.category == category_id).all()
 
         new_questions = []
 
@@ -204,52 +216,52 @@ def create_app(test_config=None):
                 'success': True
             })
 
-        except:
+        except BaseException:
             abort(404)
 
     @app.errorhandler(400)
     def bad_request(error):
 
         return jsonify({
-          'success': False,
-          'error': 400,
-          'message': 'Bad request'
+            'success': False,
+            'error': 400,
+            'message': 'Bad request'
         }), 400
 
     @app.errorhandler(404)
     def not_found(error):
 
         return jsonify({
-          'success': False,
-          'error': 404,
-          'message': 'Not found'
+            'success': False,
+            'error': 404,
+            'message': 'Not found'
         }), 404
 
     @app.errorhandler(405)
     def method_not_allowed(error):
 
         return jsonify({
-          'success': False,
-          'error': 405,
-          'message': 'Method not allowed'
+            'success': False,
+            'error': 405,
+            'message': 'Method not allowed'
         }), 405
 
     @app.errorhandler(422)
     def unprocessable(error):
 
         return jsonify({
-          'success': False,
-          'error': 422,
-          'message': 'Unprocessable'
+            'success': False,
+            'error': 422,
+            'message': 'Unprocessable'
         }), 422
 
     @app.errorhandler(500)
     def server_error(error):
 
         return jsonify({
-          'success': False,
-          'error': 500,
-          'message': 'Internal server error'
+            'success': False,
+            'error': 500,
+            'message': 'Internal server error'
         }), 500
 
     return app

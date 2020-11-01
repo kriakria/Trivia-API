@@ -7,13 +7,17 @@ import dotenv
 db_name = "trivia"
 db_user = os.getenv('DB_USER')
 db_pwd = os.getenv('DB_PASS')
-db_path = "postgres://{}:{}@{}/{}".format(db_user, db_pwd, 'localhost:5432', db_name)
+db_path = "postgres://{}:{}@{}/{}".format(db_user,
+                                          db_pwd, 'localhost:5432', db_name)
 db = SQLAlchemy()
+
 
 '''
 setup_db(app)
     binds a flask application and a SQLAlchemy service
 '''
+
+
 def setup_db(app, database_path=db_path):
     app.config["SQLALCHEMY_DATABASE_URI"] = db_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -21,11 +25,14 @@ def setup_db(app, database_path=db_path):
     db.init_app(app)
     db.create_all()
 
+
 '''
 Question
 
 '''
-class Question(db.Model):  
+
+
+class Question(db.Model):
     __tablename__ = 'questions'
 
     id = Column(Integer, primary_key=True)
@@ -43,7 +50,7 @@ class Question(db.Model):
     def insert(self):
         db.session.add(self)
         db.session.commit()
-    
+
     def update(self):
         db.session.commit()
 
@@ -60,11 +67,14 @@ class Question(db.Model):
             'difficulty': self.difficulty
         }
 
+
 '''
 Category
 
 '''
-class Category(db.Model):  
+
+
+class Category(db.Model):
     __tablename__ = 'categories'
 
     id = Column(Integer, primary_key=True)
