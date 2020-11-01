@@ -3,6 +3,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import random
+# import dotenv
 
 from models import setup_db, Question, Category
 
@@ -37,6 +38,9 @@ def create_app(test_config=None):
 
     def get_questions():
         questions = Question.query.all()
+
+        # user = os.dotenv('DB_USER')
+        # print(user)
 
         if len(questions) == 0:
             abort(404)
