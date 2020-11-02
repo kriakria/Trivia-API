@@ -40,7 +40,7 @@ class TriviaTestCase(unittest.TestCase):
     TODO
     Write at least one test for each test for successful operation and for expected errors.
     """
-
+    
     def test_list_categories(self):
         res = self.client().get('/categories')
         data = json.loads(res.data)
@@ -66,19 +66,18 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
         self.assertTrue(data['message'], 'bad request')
-        
-
+             
     def test_delete_question(self):        
-        res = self.client().delete('/questions/92')
+        res = self.client().delete('/questions/2')
         data = json.loads(res.data)
-        question = Question.query.filter(Question.id == 92).one_or_none()
+        question = Question.query.filter(Question.id == 2).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['questions'])
         self.assertTrue(data['total_questions'])
         self.assertEqual(question, None)
-    
+
     def test_405_delete_question(self):
         res = self.client().get('/questions/2000')
         data = json.loads(res.data)
@@ -149,13 +148,13 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['question'])
 
-    def test_500_play_quiz(self):
-        res = self.client().post('/quizzes')
+    def test_405_play_quiz(self):
+        res = self.client().patch('/quizzes', json={'quiz_category':{'type':'Various', 'id': 9}, 'previous_questions':[2, 9]})
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 500)
+        self.assertEqual(res.status_code, 405)
         self.assertEqual(data['success'], False)
-        self.assertTrue(data['message'], 'Internal server error')
+        self.assertTrue(data['message'], 'Method not allowed')
         
 
 

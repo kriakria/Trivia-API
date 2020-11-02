@@ -108,6 +108,7 @@ def create_app(test_config=None):
                 return jsonify({
                     'success': True,
                     'deleted': question.format(),
+                    'deleted_id': question_id,
                     'questions': current_questions,
                     'total_questions': len(questions)
                 })
@@ -132,7 +133,7 @@ def create_app(test_config=None):
             questions = Question.query.all()
             current_questions = paginate_questions(request, questions)
 
-            return jsonify({
+            return jsonify({                
                 'question': new_question,
                 'answer': new_answer,
                 'difficulty': new_difficulty,
@@ -153,7 +154,7 @@ def create_app(test_config=None):
         questions = Question.query.filter(
             Question.question.ilike(search)).all()
         formatted_questions = paginate_questions(request, questions)
-        print(questions)
+
         return jsonify({
             'success': True,
             'questions': formatted_questions,
